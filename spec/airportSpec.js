@@ -1,11 +1,16 @@
 describe('Airport', function() {
 
-	describe('can', function() {
+	describe('when interacting with planes, can', function() {
 
 		beforeEach(function() {
 			airport = new Airport;
 			plane = new Plane;
 		})
+
+		fillUpAirport = function() {
+			for(var i = 1; i < 41; i++){
+			airport.land(new Plane)};
+		};
 
 		it('hold planes', function() {
 			expect(airport.planes).toEqual([]);
@@ -15,7 +20,7 @@ describe('Airport', function() {
 			expect(airport.planes.length).toEqual(0);
 		});
 
-		it('and an airplane', function() {
+		it('land an airplane', function() {
 			airport.land(plane);
 			expect(airport.planes.length).toEqual(1);
 		});
@@ -47,7 +52,38 @@ describe('Airport', function() {
 		});
 
 		it('not takeoff an airplane that is not at the airport', function() {
-			expect(airport.takeoff(plane)).toEqual(undefined);
-		})
+			expect(airport.takeoff(plane)).toEqual(false);
+		});
+
+		it('know when it\'s full', function() {
+			fillUpAirport();
+			expect(airport.isNotFull()).toBe(false);
+		});
+
+		it('know when it\'s not full', function() {
+			expect(airport.isNotFull()).toBe(true);
+		});
+
+		it('not land a plane when it\'s full', function() {
+			fillUpAirport()
+			expect(airport.land(plane)).toEqual(false);
+		});
+
+		it('not land plane that is already at the airport', function() {
+			airport.land(plane);
+			expect(airport.land(plane)).toEqual(false);
+		});
+
+		it('it should have a default capacity', function() {
+			expect(airport.capacity).toEqual(40);
+		});
+
+	});
+
+	describe("when interacting with passengers, can", function() {
+
+		it('hold passengers', function() {
+			expect(airport.passengers).toEqual([]);
+		});
 	});
 });
