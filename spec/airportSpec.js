@@ -32,11 +32,11 @@ describe('Airport', function() {
 		})
 
 		it('only interact with airplanes', function() {
-			expect(airport.verify(plane)).toBe(true);
+			expect(airport.verifyPlane(plane)).toBe(true);
 		});
 
 		it('cannot interact with objects that are not planes', function() {
-			expect(airport.verify("banana")).toBe(false);
+			expect(airport.verifyPlane("banana")).toBe(false);
 		});
 
 		it('not land non-plane', function() {
@@ -82,8 +82,38 @@ describe('Airport', function() {
 
 	describe("when interacting with passengers, can", function() {
 
+		beforeEach(function() {
+			airport = new Airport;
+			passenger = new Passenger;
+		});
+
 		it('hold passengers', function() {
 			expect(airport.passengers).toEqual([]);
+		});
+
+		it('accept passengers', function() {
+			airport.admit(passenger);
+			expect(airport.passengers.length).toEqual(1);
+		});
+
+		it('only interact with passengers ',function() {
+			expect(airport.verifyPassenger('banana')).toEqual(false);
+		});
+
+		it('only accept passengers', function() {
+			expect(airport.admit('banana')).toEqual(false);
+		});
+
+		it('release passengers', function() {
+			airport.admit(passenger);
+			airport.release(passenger);
+			expect(airport.passengers.length).toEqual(0);
+		});
+
+		it('only accept passengers that are not at the airport', function() {
+			airport.admit(passenger);
+			airport.admit(passenger);
+			expect(airport.passengers.length).toEqual(1);
 		});
 	});
 });
